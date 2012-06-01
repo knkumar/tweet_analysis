@@ -7,7 +7,7 @@ import matplotlib.ticker as ticker
 
 class plotFigParams:
     def __init__(self, xlabel, ylabel, title, xscale=None, yscale=None, legend=None, xticks=None, 
-                 rotation=None,axhline=None, cumulative=None, rotation=None, color='b', marker='o'):
+                 axhline=None, cumulative=0, rotation=None, color='b', marker='o'):
         self.xlabel = xlabel
         self.ylabel = ylabel
         self.title = title
@@ -15,7 +15,6 @@ class plotFigParams:
         self.yscale = yscale
         self.legend = legend
         self.xticks = xticks
-        self.rotation = rotation
         self.axhline = axhline
         self.cumulative = cumulative
         self.rotation = rotation
@@ -23,8 +22,9 @@ class plotFigParams:
         self.marker = marker
 
 class plotFigFunc:
-
-    self.fig = plt.figure()
+    
+    def __init__(self):
+        self.fig = plt.figure()
 
     def plot_scatter(self, params, xvalues,yvalues, ax=None):
         if not ax:
@@ -34,9 +34,16 @@ class plotFigFunc:
             params.color = 'r'
             params.marker = 'x'
         subplot.scatter(xvalues, yvalues, c=params.color,marker=params.marker)
-        subplot.set_xscale(params.xscale)
-        subplot.set_yscale(params.yscale)
-        subplot.legend(params.legend) #("flickr","twitter")                                                            
+        if params.axhline:
+            subplot.axhline(y=params.axhline, color='r')
+        if params.xscale:
+            subplot.set_xscale(params.xscale)
+        if params.yscale:
+            subplot.set_yscale(params.yscale)
+        if params.legend:
+            subplot.legend(params.legend) #("flickr","twitter")
+        if params.xticks:
+            ax.set_xticklabels(xticks, rotation='vertical')
         subplot.set_xlabel(params.xlabel)
         subplot.set_ylabel(params.ylabel)
         subplot.set_title(params.title)
@@ -44,15 +51,18 @@ class plotFigFunc:
 
     def plot_hist(self, params, xvalues, yvalues,ax=None):
         if not ax:
-            subplot = fig.add_subplot(111)
+            subplot = self.fig.add_subplot(111)
         else:
             subpolot = ax
-        subplot.hist(xvalues,yvalue,color=params.color, cumulative=params.cumulative)
-        subplot.set_yscale(params.yscale)
+        subplot.hist(xvalues,yvalues,color=params.color, cumulative=params.cumulative)
+        if params.xscale:
+            subplot.set_xscale(params.xscale)
+        if params.yscale:
+            subplot.set_yscale(params.yscale)
         subplot.set_xlabel(params.xlabel)
         subplot.set_ylabel(params.ylabel)
         subplot.set_title(params.title)
         return subplot
 
     def save_fig(self, name):
-        fig.savefig("%s.pdf",name)
+        self.fig.savefig("%s.pdf"%name)

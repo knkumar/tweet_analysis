@@ -2,6 +2,7 @@
 import readFlickr as rf
 import readtwitter as rt
 import coefficients as cf
+import plotdata as pd
 import sys
 from util import util
 
@@ -49,9 +50,12 @@ def plot_data(bin_size):
 
 def main():
     bin_size = "4"
-    fdict = rflick(bin_size)
-    tdict = rtwit(bin_size)
-    ft_coeff(bin_size)
+    #fdict = rflick(bin_size)
+    #tdict = rtwit(bin_size)
+    #ft_coeff(bin_size)
+    pd.plotdata_ftscatter(bin_size)
+    pd.plotdata_ftjaccard(bin_size)
+    pd.plotdata_ftcosine(bin_size)
 
 if __name__ == "__main__":
     sys.exit(main())

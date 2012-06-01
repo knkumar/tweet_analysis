@@ -42,3 +42,4 @@ cos_rand_out = "%s/cos_random_all"%root
 
 
 fig_save = "./images"
+fig_path = "./images"
